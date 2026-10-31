@@ -1,62 +1,91 @@
-# Pizzeria El Chocolate — Website
+# elchocolatepizza.com
 
-A fast, static, bilingual (ES/EN) site for a Cuban pizzeria. It has no build step and no framework, so it works on GitHub Pages, Netlify, Vercel or any other static host.
+Website for **Pizzeria El Chocolate**, an authentic Cuban pizzeria at 899 Pondella Rd, North Fort Myers, FL. The site is bilingual: **English is primary**, with a Spanish (ES) toggle.
 
+It uses the same architecture as `LeeMena/leandermena-main`: the same stack, i18n pattern, SEO component, edge meta rewriting and CI, re-skinned for a Cuban pizzeria.
+
+[![CI](https://github.com/LeeMena/elchocolatepizza.com/actions/workflows/ci.yml/badge.svg)](https://github.com/LeeMena/elchocolatepizza.com/actions/workflows/ci.yml)
+
+## Stack
+
+| Layer | Technology |
+|---|---|
+| Framework | React 18 + TypeScript |
+| Build | Vite 5 (route-level code splitting) |
+| Styling | Tailwind CSS 3 + CSS design tokens (dark "chocolate" / light "cream" themes) |
+| Routing | React Router 6 |
+| Motion | Framer Motion (respects `prefers-reduced-motion`) |
+| Search | cmdk command palette (⌘K / Ctrl+K) |
+| Hosting | Cloudflare Pages + Pages Functions (edge SEO) |
+| Analytics | Plausible (privacy-first, no cookies) |
+
+## Features
+
+- **EN / ES toggle.** All UI copy is in `src/i18n/copy.ts`, and menu items are bilingual in `src/data/menu.ts`. Page titles and descriptions switch language too.
+- **Live pizza renderer** (`src/lib/pie.ts`). Each menu pizza is drawn procedurally with its real toppings: queso, jamón, chorizo, langosta, cocodrilo and the rest.
+  - **Hero.** Cycles through the signature pies, with toppings dropping in and a 3D tilt that follows the cursor.
+  - **Pizza Lab** on `/menu`. Tap any pizza to see it built. On phones, it expands inline.
+- **Live open/closed status**, computed in Florida time. It appears in the nav, hero, footer and hours tables.
+- **Menu tools.** Instant menu search (accent-insensitive: "guanabana" finds Guanábana), scroll-spy category chips, and a print-ready menu.
+- **⌘K command palette.** Search every pizza and page, plus actions: order, call, directions, language and theme.
+- **Phone-first layout.** A thumb-zone action bar (Call · Directions · Order), a full-screen mobile drawer, and a dismissible announcement bar.
+- **Schema.org.** `Restaurant` + `WebSite` sitewide, a full `Menu` with prices on `/menu`, and `FAQPage` on `/visit`.
+- **Edge SEO** (`functions/_middleware.js`):
+  - Per-route title, description, canonical and Open Graph tags, plus real page content for non-JS crawlers and link previews.
+  - www → apex redirect, legacy URL 301s and real 404s.
+- **Photo slots.** Drop files into `public/images/` with the names in `src/data/site.ts` (`logo.png`, `story.jpg`, `cocodrilo.jpg`, `chocolate.jpg`, `storefront.jpg`, `ig-1.jpg` … `ig-6.jpg`). Each one swaps in automatically; until then the illustrated design shows.
+
+## Pages
+
+| Route | What |
+|---|---|
+| `/` | Hero + live pie, highlights grid, fan favorites, ways to order, Instagram, visit, reviews |
+| `/menu` | Full menu + Pizza Lab, search, print |
+| `/our-pizza` | What makes Cuban pizza different; specialty pie explorer |
+| `/order` | Slice, DoorDash, call |
+| `/visit` | Address, live hours, map, FAQ |
+| `/privacy` | Privacy notice |
+
+## Develop
+
+```bash
+npm install
+npm run dev        # http://localhost:5173
+npm run build      # prebuild regenerates functions/route-meta.json -> dist/
+npm run lint && npm run type-check
 ```
-index.html            page structure + SEO (meta, Open Graph, schema.org Restaurant JSON-LD)
-assets/css/styles.css design system (chocolate · Havana cream · tomato · mango · palm)
-assets/js/data.js     ← ALL CONTENT LIVES HERE: menu, prices, hours, links, photos
-assets/js/app.js      rendering, ES/EN toggle, live open/closed status (Florida time)
-assets/img/           drop real photos here
-_headers              Cloudflare Pages security/cache headers
-docs/                 preview screenshots (not linked from the site)
-```
 
-To preview locally, open `index.html` or run `python3 -m http.server` in this folder.
+## Editing content
 
-## What's on the page
-- **Hero.** Headline, order and menu buttons, rating, hours and starting price.
-- **"¿Qué es la pizza cubana?"** Three cards on the dough, the sauce and the cheese.
-- **Tabbed menu.** Pizza Cubana, Especialidades, Aperitivos, Spaghetti, Batidos, Postres. Each item shows its name in both languages, its price and any badges.
-- **Feature cards.** Alligator Pizza and Chocolate Pizza.
-- **Instagram grid.** Links to @pizzeriaelchocolate. Each tile shows an illustrated placeholder until you add a photo.
-- **Visit section.** Live open/closed status, today's hours highlighted, tap-to-call, directions and an embedded map.
-- **Reviews band** and footer.
-- **Mobile bar.** Fixed Call / Directions / Order buttons on phones.
+| What | Where |
+|---|---|
+| Phone, address, hours, order links, rating, photos | `src/data/site.ts` |
+| Menu items and prices | `src/data/menu.ts` (`price: null` shows "Ask us") |
+| Any wording (EN + ES) | `src/i18n/copy.ts` |
+| Page title and description for search and link previews | the `<SEO …/>` props at the top of each `src/pages/*.tsx` |
 
-## Where the content came from (Oct 2026)
-The session network blocked direct access to pizzeriaelchocolate.com and instagram.com. The content was compiled from search-index copies of the official site and from public listings (Slice, DoorDash, Yelp, Birdeye):
+After changing `<SEO/>` props, run `npm run build` and commit the regenerated `functions/route-meta.json`. CI checks that it's fresh.
 
-| Item | Value | Status |
-|---|---|---|
-| Address | 899 Pondella Rd, North Fort Myers, FL 33903 | confirmed by several sources |
-| Phone | (239) 946-9006 (official site) | some directories list (239) 471-0463 |
-| Hours | 11 AM – 9 PM daily (official site) | other listings differ; verify Sat |
-| Rating | 4.6★ / 175 reviews (Birdeye) | |
-| Ordering | Slice (primary), DoorDash | |
-| Pizza Cubana | Queso 10.99 · Cebolla/Ají/Hongos/Jamón 11.99 · Pepperoni/Chorizo/Bacon/Atún/Hawaiana 12.99 | official site |
-| Especialidades | Mixta 15.99 · Camarones 17.99 · Langostino 21.99 · Langosta 22.99 · Cocodrilo 26.99 | official site |
-| Aperitivos | Pan de Ajo 3.99 · Croquetas 1.75 c/u | official site |
-| Spaghetti | Napolitano 8.99 · Jamón 9.99 · Chorizo, Langosta (price unknown) | DoorDash |
-| Batidos | Chocolate 4.99 · Mamey 4.99 · Guanábana 6.99 | DoorDash / Slice |
-| Postres | Pizza de Chocolate 9.99 · Creama de Queso (price unknown) | DoorDash / official |
+## Deploy (Cloudflare Pages)
 
-Items without a price show "Preguntar / Ask us". Set `price` in `data.js` to fill them in.
-
-## To-do before launch
-- [ ] Add real photos (Instagram exports) to `assets/img/` and set `img:` in the `gallery` array
-- [ ] Add `assets/img/og.jpg` (1200×630) and an `og:image` meta tag so link previews show a photo
-- [ ] Confirm phone, hours, croqueta flavors, and the missing prices
-- [ ] Sister location? *Cafeteria El Chocolate*, 1419 SE 47th Terrace, Cape Coral, has a similar Cuban-pizza menu. If it's part of the same family, uncomment it in `data.js`
-- [ ] Add a logo file if you have one (the current mark is CSS-drawn)
-
-## Deploying on Cloudflare Pages
-1. In the Cloudflare dashboard, go to **Workers & Pages → Create → Pages → Connect to Git**, then pick `LeeMena/elchocolatepizza.com`.
+1. In the Cloudflare dashboard, go to **Workers & Pages → Create → Pages → Connect to Git** and select `LeeMena/elchocolatepizza.com`.
 2. Use these build settings:
-   - **Framework preset:** None
-   - **Build command:** *(leave empty)*
-   - **Build output directory:** `/`
-   - **Production branch:** `main`
-3. After the first deploy, open the project's **Custom domains** tab and add `elchocolatepizza.com` (and optionally `www.elchocolatepizza.com`). The zone is already on Cloudflare, so the DNS records are created automatically.
+   - **Framework preset:** Vite (or None)
+   - **Build command:** `npm run build`
+   - **Build output directory:** `dist`
+   - **Environment variable:** `NODE_VERSION = 22`
+3. Under **Custom domains**, add `elchocolatepizza.com` and `www.elchocolatepizza.com`. The middleware 301s www → apex.
 
-From then on, every push to `main` redeploys the site. `_headers` sets the security and cache headers, and `docs/` holds the preview screenshots, which are kept out of search results.
+Every push to `main` deploys. The optional cache purge in `.github/workflows/deploy.yml` runs if `CF_ZONE_ID` and `CF_CACHE_TOKEN` are set as repo secrets.
+
+## To confirm before launch
+
+- [ ] Phone: the restaurant's site says (239) 946-9006, but some directories list (239) 471-0463.
+- [ ] Hours: 11 AM – 9 PM daily per the restaurant's site. Other listings differ, especially Saturday.
+- [ ] Missing prices: spaghetti chorizo and lobster, and the cheese creama.
+- [ ] Croqueta flavors.
+- [ ] Sister location? Cafeteria El Chocolate, 1419 SE 47th Terrace, Cape Coral. If it's yours, add it to `site.locations`.
+- [ ] Photos: logo, food shots and Instagram picks (see Photo slots above).
+- [ ] Plausible: create the `elchocolatepizza.com` site at plausible.io, or remove the script from `index.html`.
+
+Content sources (Oct 2026): pizzeriaelchocolate.com via search-index copies, plus public listings on Slice, DoorDash, Yelp and Birdeye.

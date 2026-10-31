@@ -1,0 +1,67 @@
+# =============================================================
+# elchocolatepizza.com - Purge -> Status
+#
+# The Cloudflare Pages GIT INTEGRATION deploys every push to main.
+# The jobs below are OPTIONAL extras that skip cleanly when their
+# secrets are not configured (Settings -> Secrets -> Actions):
+#   CF_ZONE_ID      - Zone ID for elchocolatepizza.com
+#   CF_CACHE_TOKEN  - API token scoped to Cache Purge only
+# =============================================================
+name: Purge -> Status
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    outputs:
+      has_purge_secrets: ${{ steps.detect.outputs.has_purge_secrets }}
+    steps:
+      - id: detect
+        env:
+          CF_CACHE_TOKEN: ${{ secrets.CF_CACHE_TOKEN }}
+          CF_ZONE_ID: ${{ secrets.CF_ZONE_ID }}
+        run: |
+          if [ -n "$CF_CACHE_TOKEN" ] && [ -n "$CF_ZONE_ID" ]; then
+            echo "has_purge_secrets=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_purge_secrets=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::CF_CACHE_TOKEN / CF_ZONE_ID not set - skipping cache purge."
+          fi
+
+  purge:
+    runs-on: ubuntu-latest
+    needs: preflight
+    if: needs.preflight.outputs.has_purge_secrets == 'true'
+    steps:
+      - name: Wait for Pages build + edge propagation
+        run: sleep 120
+      - name: Purge HTML pages & crawl assets
+        env:
+          CF_ZONE_ID: ${{ secrets.CF_ZONE_ID }}
+          CF_CACHE_TOKEN: ${{ secrets.CF_CACHE_TOKEN }}
+        run: |
+          RESPONSE=$(curl -s -X POST "https://api.cloudflare.com/client/v4/zones/${CF_ZONE_ID}/purge_cache" \
+            -H "Authorization: Bearer ${CF_CACHE_TOKEN}" -H "Content-Type: application/json" \
+            --data '{"files":["https://elchocolatepizza.com/","https://elchocolatepizza.com/menu","https://elchocolatepizza.com/our-pizza","https://elchocolatepizza.com/order","https://elchocolatepizza.com/visit","https://elchocolatepizza.com/sitemap.xml"]}')
+          echo "$RESPONSE"
+          echo "$RESPONSE" | grep -q '"success":true'
+
+  status_check:
+    runs-on: ubuntu-latest
+    needs: [preflight, purge]
+    if: always() && needs.purge.result != 'failure'
+    steps:
+      - name: Wait for deploy
+        run: sleep 150
+      - name: Key pages return 200
+        run: |
+          FAILED=0
+          for URL in https://elchocolatepizza.com/ https://elchocolatepizza.com/menu https://elchocolatepizza.com/our-pizza https://elchocolatepizza.com/order https://elchocolatepizza.com/visit https://elchocolatepizza.com/sitemap.xml; do
+            STATUS=$(curl -o /dev/null -s -w "%{http_code}" --max-time 15 "$URL")
+            if [ "$STATUS" = "200" ]; then echo "::notice::$URL $STATUS"; else echo "::error::$URL returned $STATUS"; FAILED=1; fi
+          done
+          exit $FAILED

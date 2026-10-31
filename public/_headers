@@ -1,0 +1,23 @@
+# Cloudflare Pages: HTTP response headers
+/*
+  X-Frame-Options: SAMEORIGIN
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  # Report-only CSP: observe in devtools first, then switch to enforcing.
+  Content-Security-Policy-Report-Only: default-src 'self'; script-src 'self' 'unsafe-inline' https://plausible.io; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data:; connect-src 'self' https://plausible.io; frame-src https://maps.google.com https://www.google.com; base-uri 'self'; form-action 'self'; object-src 'none'; frame-ancestors 'self'
+
+# Vite fingerprints filenames: cache forever
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Photos: 30 days (rename the file to bust)
+/images/*
+  Cache-Control: public, max-age=2592000, stale-while-revalidate=86400
+
+# HTML: always revalidate so deploys propagate immediately
+/*.html
+  Cache-Control: no-cache, must-revalidate
+/
+  Cache-Control: no-cache, must-revalidate

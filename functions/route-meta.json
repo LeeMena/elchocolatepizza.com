@@ -1,0 +1,35 @@
+{
+  "/": {
+    "title": "Pizzeria El Chocolate | Authentic Cuban Pizza in North Fort Myers, FL",
+    "description": "Authentic Cuban pizza in North Fort Myers, FL: thick sweet crust, golden edge-to-edge cheese, lobster and alligator pies, croquetas, tropical shakes and chocolate pizza.",
+    "body": "<p>Open daily 11 AM–9 PM. 899 Pondella Rd, North Fort Myers, FL 33903. Phone (239) 946-9006.</p><p>Cuban pizza from $10.99, specialty lobster and alligator pies, croquetas, tropical shakes and chocolate pizza.</p>"
+  },
+  "/menu": {
+    "title": "Menu | Pizzeria El Chocolate — Cuban Pizza, Croquetas & Shakes",
+    "description": "The full Pizzeria El Chocolate menu: Cuban pizza from $10.99, lobster and alligator specialty pies, homemade croquetas, Cuban-style spaghetti, tropical shakes and chocolate pizza.",
+    "body": "<section><h2>Cuban Pizza / Pizza Cubana</h2><p>Thick, slightly sweet dough, Cuban-style sauce and cheese baked golden right to the edge.</p><ul><li>Cheese (Queso) — $10.99</li><li>Onion (Cebolla) — $11.99</li><li>Pepper (Ají) — $11.99</li><li>Mushroom (Hongos) — $11.99</li><li>Ham (Jamón) — $11.99</li><li>Pepperoni — $12.99</li><li>Chorizo — $12.99</li><li>Bacon — $12.99</li><li>Tuna (Atún) — $12.99</li><li>Hawaiian (Hawaiana) — $12.99</li></ul></section><section><h2>Specialty Pies / Especialidades</h2><p>From the sea and the swamp. For when you came hungry.</p><ul><li>Mixed (Mixta) — $15.99. Ham, chorizo, pepper &amp; onion</li><li>Shrimp (Camarones) — $17.99</li><li>Prawn (Langostino) — $21.99</li><li>Lobster (Langosta) — $22.99</li><li>Alligator (Cocodrilo) — $26.99. The house legend</li></ul></section><section><h2>Starters / Aperitivos</h2><p>Something to pick at while the pie bakes.</p><ul><li>Garlic Bread (Pan de Ajo) — $3.99</li><li>Homemade Croquetas (Croquetas Caseras) — $1.75. Ham, chicken, salt cod, cheese &amp; more — ask for today&#39;s flavors</li></ul></section><section><h2>Spaghetti / Spaghetti</h2><p>Cuban-style, the way abuela makes it.</p><ul><li>Napolitano — $8.99</li><li>Ham (Jamón) — $9.99</li><li>Chorizo — Ask us</li><li>Lobster (Langosta) — Ask us</li></ul></section><section><h2>Shakes / Batidos</h2><p>Tropical fruit, blended to order.</p><ul><li>Chocolate — $4.99</li><li>Mamey — $4.99</li><li>Soursop (Guanábana) (Guanábana) — $6.99</li></ul></section><section><h2>Dessert / Postres</h2><p>There&#39;s a reason we&#39;re called El Chocolate.</p><ul><li>Chocolate Pizza (Pizza de Chocolate) — $9.99. Chocolate spread &amp; powdered sugar</li><li>Cheese Creama (Creama de Queso) — Ask us</li></ul></section>"
+  },
+  "/order": {
+    "title": "Order Online | Pizzeria El Chocolate — Pickup & Delivery",
+    "description": "Order Pizzeria El Chocolate's Cuban pizza for pickup or delivery online through Slice or DoorDash, or call (239) 946-9006. 899 Pondella Rd, North Fort Myers, FL.",
+    "body": "<ul><li><a href=\"https://slicelife.com/restaurants/fl/north-fort-myers/33903/pizzeria-el-chocolate/menu\">Order on Slice</a></li><li><a href=\"https://www.doordash.com/store/pizzer%C3%ADa-el-chocolate-north-fort-myers-27728032/\">Order on DoorDash</a></li><li>Call (239) 946-9006</li></ul>"
+  },
+  "/our-pizza": {
+    "title": "What Is Cuban Pizza? | Pizzeria El Chocolate, North Fort Myers",
+    "description": "Cuban pizza is its own style: thick, soft, slightly sweet pan-baked dough, Cuban-style sauce with sofrito, and cheese all the way to the caramelized edge. Here's what makes ours different."
+  },
+  "/privacy": {
+    "title": "Privacy | Pizzeria El Chocolate",
+    "description": "How elchocolatepizza.com handles your data: privacy-first analytics with no cookies, and no personal data collected on this site."
+  },
+  "/visit": {
+    "title": "Visit Us | Pizzeria El Chocolate — 899 Pondella Rd, North Fort Myers",
+    "description": "Pizzeria El Chocolate is at 899 Pondella Rd, North Fort Myers, FL 33903. Open daily 11 AM–9 PM. Call (239) 946-9006. Directions, hours and FAQs.",
+    "body": "<p>Open daily 11 AM–9 PM. 899 Pondella Rd, North Fort Myers, FL 33903. Phone (239) 946-9006.</p>"
+  },
+  "__404__": {
+    "title": "Page Not Found | Pizzeria El Chocolate",
+    "description": "That page isn't here, but the Cuban pizza is. Head back to the Pizzeria El Chocolate homepage or menu.",
+    "noindex": true
+  }
+}
